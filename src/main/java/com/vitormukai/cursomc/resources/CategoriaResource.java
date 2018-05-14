@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import com.vitormukai.cursomc.domain.Categoria;
 import com.vitormukai.cursomc.services.CategoriaService;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import sun.reflect.generics.tree.VoidDescriptor;
 
 import java.net.URI;
 
@@ -38,4 +39,9 @@ public class CategoriaResource {
 		return ResponseEntity.noContent().build();
 	}
 
+	@RequestMapping(value ="/{id}", method=RequestMethod.DELETE)
+	public ResponseEntity<Void> delete(@PathVariable Integer id) {
+		service.delete(id);
+		return ResponseEntity.noContent().build();
+	}
 }
