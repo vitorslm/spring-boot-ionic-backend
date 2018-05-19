@@ -1,6 +1,7 @@
 package com.vitormukai.cursomc.services;
 
 import com.vitormukai.cursomc.domain.Categoria;
+import com.vitormukai.cursomc.domain.Cliente;
 import com.vitormukai.cursomc.dto.CategoriaVO;
 import com.vitormukai.cursomc.repositories.CategoriaRepository;
 import com.vitormukai.cursomc.services.exception.DataIntegrityException;
@@ -33,8 +34,9 @@ public class CategoriaService {
 	}
 
 	public Categoria update(Categoria obj){
-		find((obj.getId()));
-		return repo.save(obj);
+		Categoria newObj = find(obj.getId());
+		updateData(newObj, obj);
+		return repo.save(newObj);
 	}
 
 	public void delete(Integer id){
@@ -58,4 +60,8 @@ public class CategoriaService {
 	public Categoria fromVO(CategoriaVO objVo){
 	    return new Categoria(objVo.getId(), objVo.getNome());
     }
+
+	private void updateData(Categoria newObj, Categoria obj){
+		newObj.setNome(obj.getNome());
+	}
 }
