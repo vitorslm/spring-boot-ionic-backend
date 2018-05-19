@@ -2,6 +2,8 @@ package com.vitormukai.cursomc.resources;
 
 import com.vitormukai.cursomc.dto.CategoriaVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,6 +54,17 @@ public class CategoriaResource {
 	public ResponseEntity<List<CategoriaVO>> findAll() {
 		List<Categoria> list = service.findAll();
 		List<CategoriaVO> listVo = list.stream().map(obj -> new CategoriaVO(obj)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listVo);
+	}
+
+	@RequestMapping(value = "/page", method=RequestMethod.GET)
+	public ResponseEntity<Page<CategoriaVO>> findPage(
+				@RequestParam(value = "page", defaultValue = "0") Integer page,
+				@RequestParam(value = "linesPerPage", defaultValue = "24")Integer linesPerPage,
+				@RequestParam(value = "orderBy", defaultValue = "nome")String orderBy,
+				@RequestParam(value = "direction", defaultValue = "ASC")String direction){
+		Page<Categoria> list = service.findPage(page, linesPerPage, orderBy, direction);
+		Page<CategoriaVO> listVo = list.map(obj -> new CategoriaVO(obj));
 		return ResponseEntity.ok().body(listVo);
 	}
 }
