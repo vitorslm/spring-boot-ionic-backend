@@ -1,6 +1,7 @@
 package com.vitormukai.cursomc.services;
 
 import com.vitormukai.cursomc.domain.Categoria;
+import com.vitormukai.cursomc.dto.CategoriaVO;
 import com.vitormukai.cursomc.repositories.CategoriaRepository;
 import com.vitormukai.cursomc.services.exception.DataIntegrityException;
 import com.vitormukai.cursomc.services.exception.ObjectNotFoundException;
@@ -53,4 +54,8 @@ public class CategoriaService {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
 		return repo.findAll(pageRequest);
 	}
+
+	public Categoria fromVO(CategoriaVO objVo){
+	    return new Categoria(objVo.getId(), objVo.getNome());
+    }
 }

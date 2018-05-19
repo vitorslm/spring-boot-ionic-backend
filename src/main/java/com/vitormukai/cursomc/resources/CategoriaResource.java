@@ -12,6 +12,7 @@ import com.vitormukai.cursomc.services.CategoriaService;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import sun.reflect.generics.tree.VoidDescriptor;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,7 +31,8 @@ public class CategoriaResource {
 	}
 
 	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<Void> insert(@RequestBody Categoria obj){
+	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaVO objVo){
+		Categoria obj = service.fromVO(objVo);
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
 				.path("/{id}").buildAndExpand(obj.getId()).toUri();
@@ -38,7 +40,8 @@ public class CategoriaResource {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Void> update(@RequestBody Categoria obj, @PathVariable Integer id) {
+	public ResponseEntity<Void> update(@Valid @RequestBody CategoriaVO objVo, @PathVariable Integer id) {
+		Categoria obj = service.fromVO(objVo);
 		obj.setId(id);
 		obj = service.update(obj);
 		return ResponseEntity.noContent().build();
